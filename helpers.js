@@ -246,4 +246,18 @@ helpers.findNearestTeamMember = function(gameData) {
   return pathInfoObject.direction;
 };
 
+// Returns the distance to nearest friendly hero or false if non exist which would be a shame
+helpers.DistNearestTeamMember = function(gameData) {
+  var hero = gameData.activeHero;
+  var board = gameData.board;
+
+  //Get the path info object
+  var pathInfoObject = helpers.findNearestObjectDirectionAndDistance(board, hero, function(heroTile) {
+    return heroTile.type === 'Hero' && heroTile.team === hero.team;
+  });
+
+  //Return the direction that needs to be taken to achieve the goal
+  return pathInfoObject.distance;
+};
+
 module.exports = helpers;

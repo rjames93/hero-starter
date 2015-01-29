@@ -71,6 +71,27 @@ var moves = {
     return null;
   },
 
+  // rjames93 custom hero function
+  custom: function(gameData, helpers){
+	// Need to write a hybrid of all the heros.
+	// Need to check nearby allies
+	var myHero = gameData.activeHero;
+  var allydist = helpers.DistNearestTeamMember(gameData);
+
+    if (myHero.health <= 30){
+      console.log("Healing");
+      return helpers.findNearestHealthWell(gameData);
+    } else {
+      if ( Math.abs(allydist) <= ((2)) ){
+        console.log("Attacking Weaker Enemy");
+        return helpers.findNearestWeakerEnemy(gameData);
+      } else {
+        console.log("Following my Ally");
+        return helpers.findNearestTeamMember(gameData);
+      }
+    }
+  },
+
   // The "Northerner"
   // This hero will walk North.  Always.
   northener : function(gameData, helpers) {
@@ -180,7 +201,7 @@ var moves = {
  };
 
 //  Set our heros strategy
-var  move =  moves.aggressor;
+var  move =  moves.custom;
 
 // Export the move function here
 module.exports = move;
